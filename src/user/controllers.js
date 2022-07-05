@@ -1,3 +1,5 @@
+//controllers don't stop automatically, you need to tell them with the res.send method
+
 const User = require("./model");
 
 
@@ -11,3 +13,20 @@ exports.signUp = async (req, res) => {
         res.send({error})
     }
 }
+
+exports.login = async (req, res) => {
+    try {
+        const use = await User.findOne({
+            username: req.body.username,
+            password: req.body.password,
+        });
+    if (!user) {
+        throw new Error("incorrect credentials")
+    } else {
+        res.send({user});
+    }
+    } catch (error) {
+        console.log(error);
+        res.send({error})
+    }
+};

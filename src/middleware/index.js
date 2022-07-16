@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const User = require("../user/model");
 
 exports.hashPass = async (req, res, next) => {
@@ -9,6 +9,7 @@ exports.hashPass = async (req, res, next) => {
         // req.body.password = hashedPass; //stores freshly hashed password back in the req body
 
         //DRY version of the above
+        console.log("request", req)
         req.body.password = await bcrypt.hash(req.body.password, 8);
 
 
@@ -34,15 +35,15 @@ exports.comparePass = async (req, res, next) => {
     }
 }
 
-exports.tokenCheck = async (req, res, next) => {
-    try {
-        const token = req.body.token;
-        console.log(token);
-        const decodedToken = jwt.verify(token, process.env.secret); 
-        req.user = await User.findById(decodedToken.id);//finding a user by their id, stored in the token
-        next()
-    } catch (error) {
-        console.log(error);
-        res.send({error});
-    }
-}
+// exports.tokenCheck = async (req, res, next) => {
+//     try {
+//         const token = req.body.token;
+//         console.log(token);
+//         const decodedToken = jwt.verify(token, process.env.secret); 
+//         req.user = await User.findById(decodedToken.id);//finding a user by their id, stored in the token
+//         next()
+//     } catch (error) {
+//         console.log(error);
+//         res.send({error});
+//     }
+// }
